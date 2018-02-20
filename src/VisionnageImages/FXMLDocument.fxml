@@ -5,14 +5,13 @@
 <?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="buttonM" prefHeight="308.0" prefWidth="496.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="VisionnageImages.FXMLDocumentController">
+<AnchorPane id="AnchorPane" fx:id="buttonM" prefHeight="166.0" prefWidth="496.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="VisionnageImages.FXMLDocumentController">
     <children>
-        <Button fx:id="buttonMl" layoutX="307.0" layoutY="132.0" onAction="#handleButtonAction" text="Choisir Répertoire" />
-        <Label id="labelM" fx:id="labelM" layoutX="46.0" layoutY="68.0" minHeight="16" minWidth="69" prefHeight="26.0" prefWidth="406.0" text="Bienvenue dans note Application de visionnage d'images  " textFill="#0009ae" textOverrun="CLIP">
+        <Button fx:id="buttonMl" layoutX="290.0" layoutY="87.0" onAction="#handleButtonAction" text="Choisir Répertoire" />
+        <Label id="labelM" fx:id="labelM" layoutX="14.0" layoutY="31.0" minHeight="16" minWidth="69" prefHeight="26.0" prefWidth="467.0" text="Bienvenue dans note Application de visionnage d'images  " textFill="#0b149a" textOverrun="CLIP">
          <contextMenu>
             <ContextMenu>
               <items>
@@ -21,12 +20,12 @@
             </ContextMenu>
          </contextMenu>
          <font>
-            <Font name="LMRomanCaps10-Oblique" size="13.0" />
+            <Font size="16.0" />
          </font></Label>
       <Accordion />
       <Accordion />
-      <TextField fx:id="textRep" layoutX="71.0" layoutY="132.0" />
-      <Button layoutX="375.0" layoutY="243.0" mnemonicParsing="false" onAction="#validerButtonAction" text="Valider" />
+      <Button layoutX="444.0" layoutY="88.0" mnemonicParsing="false" onAction="#validerButtonAction" text="Ok" />
+      <Label fx:id="labelRep" layoutX="42.0" layoutY="93.0" prefHeight="16.0" prefWidth="227.0" />
    
     </children>
 </AnchorPane>

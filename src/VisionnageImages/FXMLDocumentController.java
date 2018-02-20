@@ -6,15 +6,20 @@
 package VisionnageImages;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 
 /**
  *
@@ -24,25 +29,34 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private Label labelM;
-    
-    @FXML
-    private TextField textRep;
+   
     @FXML
     private Button buttonMl;
+    @FXML
+    private Label labelRep;
     
     @FXML
     private void handleButtonAction(ActionEvent event) {
  
         final DirectoryChooser dialog = new DirectoryChooser(); 
         final File directory = dialog.showDialog(buttonMl.getScene().getWindow());
-      
-        textRep.setText(directory.getAbsolutePath());
+       if(directory == null){
+                    labelRep.setText("No Directory selected");
+                }else{
+                    labelRep.setText(directory.getAbsolutePath());
+                }
+     
     
     }
         @FXML
-    private void validerButtonAction(ActionEvent event) {
-            
-    
+    private void validerButtonAction(ActionEvent event) throws IOException {
+   
+           /// Parent root = loader.load(getClass().getClassLoader().getResourceAsStream("view/MainUI.fxml");
+            Parent parent=  FXMLLoader.load(getClass().getResource("FXMLmainFenetre.fxml"));
+            Scene scene= new Scene(parent);
+            Stage stage= (Stage)((Node) event.getSource()).getScene().getWindow();    
+            stage.setScene(scene);
+            stage.show();
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
