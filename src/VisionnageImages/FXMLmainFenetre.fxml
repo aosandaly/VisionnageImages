@@ -13,34 +13,34 @@
    <children>
       <Pane layoutX="2.0" layoutY="529.0" prefHeight="149.0" prefWidth="208.0" style="-fx-background-color: Silver; -fx-border-color: black;">
          <children>
-            <RadioButton layoutX="14.0" layoutY="44.0" mnemonicParsing="false" text="Nom" />
-            <RadioButton layoutX="110.0" layoutY="44.0" mnemonicParsing="false" text="Mot-Clés" />
-            <Label layoutX="21.0" layoutY="19.0" text="Rechercher Par :" />
-            <TextField layoutX="16.0" layoutY="74.0" promptText="rechercher" />
-            <Button layoutX="79.0" layoutY="108.0" mnemonicParsing="false" prefWidth="53.0" text="Ok" />
+            <RadioButton fx:id="nomRecherche" layoutX="4.0" layoutY="44.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="76.0" text="Nom" />
+            <RadioButton fx:id="motCleRecherche" layoutX="76.0" layoutY="44.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="133.0" text="Mot-Clés" />
+            <Label fx:id="rechercherPar" layoutX="21.0" layoutY="19.0" prefHeight="16.0" prefWidth="161.0" text="Rechercher Par :" />
+            <TextField fx:id="promptRecherch" layoutX="16.0" layoutY="74.0" promptText="rechercher" />
+            <Button fx:id="ok" layoutX="55.0" layoutY="108.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="87.0" text="Ok" />
          </children>
       </Pane>
       <Pane layoutX="695.0" layoutY="72.0" prefHeight="445.0" prefWidth="208.0" style="-fx-background-color: Silver; -fx-border-color: black;">
          <children>
-            <Label layoutX="10.0" layoutY="75.0" text="Nom image:" />
-            <Label layoutX="10.0" layoutY="126.0" text="Mot-Clés :" />
-            <Label layoutX="11.0" layoutY="174.0" text="Type:" />
-            <Label layoutX="10.0" layoutY="219.0" text="Taille :" />
+            <Label fx:id="NomImage" layoutX="4.0" layoutY="77.0" prefHeight="16.0" prefWidth="113.0" text="Nom image:" />
+            <Label fx:id="motCle" layoutX="5.0" layoutY="126.0" prefHeight="16.0" prefWidth="113.0" text="Mot-Clés :" />
+            <Label fx:id="type" layoutX="11.0" layoutY="174.0" prefHeight="16.0" prefWidth="53.0" text="Type:" />
+            <Label fx:id="taille" layoutX="10.0" layoutY="219.0" prefHeight="16.0" prefWidth="64.0" text="Taille :" />
             <Label layoutX="100.0" layoutY="179.0" text="Type:" />
             <Label layoutX="100.0" layoutY="219.0" text="Type:" />
-            <Button layoutX="70.0" layoutY="290.0" mnemonicParsing="false" text="Modifier Info" />
-            <TextField layoutX="84.0" layoutY="122.0" prefHeight="26.0" prefWidth="108.0" promptText="mot-clés" />
-            <TextField layoutX="94.0" layoutY="74.0" prefHeight="26.0" prefWidth="99.0" promptText="nom" />
+            <Button fx:id="mofifieInfo" layoutX="70.0" layoutY="290.0" mnemonicParsing="false" text="Modifier Info" />
+            <TextField fx:id="promptMotCle" layoutX="117.0" layoutY="122.0" prefHeight="26.0" prefWidth="87.0" promptText="mot-clés" />
+            <TextField fx:id="promptNom" layoutX="118.0" layoutY="71.0" prefHeight="26.0" prefWidth="87.0" promptText="nom" />
          </children>
       </Pane>
       <Button fx:id="btnModif" layoutX="35.0" layoutY="10.0" mnemonicParsing="false" onAction="#modifRepButtonAction" text="Modifier Répertoir" />
-      <Button layoutX="739.0" layoutY="603.0" mnemonicParsing="false" text="Quitter Application" />
+      <Button fx:id="quitterApp" layoutX="739.0" layoutY="603.0" mnemonicParsing="false" text="Quitter Application" />
 
       <Pane layoutX="2.0" layoutY="70.0" prefHeight="445.0" prefWidth="208.0" style="-fx-background-color: Silver; -fx-border-color: black;">
          <children>
             <TextField layoutX="16.0" layoutY="74.0" />
             <ListView layoutX="5.0" layoutY="50.0" prefHeight="389.0" prefWidth="200.0" />
-            <Label layoutX="59.0" layoutY="16.0" prefHeight="18.0" prefWidth="133.0" text="Liste des images:" />
+            <Label fx:id="listesImage" layoutX="59.0" layoutY="16.0" prefHeight="18.0" prefWidth="133.0" text="Liste des images:" />
          </children>
       </Pane>
       <Pane layoutY="706.0" prefHeight="18.0" prefWidth="906.0" style="-fx-border-color: black;" />
@@ -50,5 +50,8 @@
          </children>
       </Pane>
       <Label fx:id="labelReper" layoutX="7.0" layoutY="46.0" prefHeight="18.0" prefWidth="200.0" />
+      <Button fx:id="btnFrancais" layoutX="720.0" layoutY="14.0" mnemonicParsing="false" onAction="#btnFr" text="Fr" />
+      <Button fx:id="btnAnglais" layoutX="791.0" layoutY="14.0" mnemonicParsing="false" onAction="#btnEn" text="En" />
+      <Button fx:id="btnArabe" layoutX="856.0" layoutY="15.0" mnemonicParsing="false" onAction="#btnAr" text="Tr" />
    </children>
 </AnchorPane>
