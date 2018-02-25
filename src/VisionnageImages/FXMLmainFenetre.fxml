@@ -8,8 +8,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="723.0" prefWidth="895.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="VisionnageImages.FXMLmainFenetreController">
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="723.0" prefWidth="895.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Pane layoutX="2.0" layoutY="529.0" prefHeight="149.0" prefWidth="208.0" style="-fx-background-color: Silver; -fx-border-color: black;">
          <children>
@@ -38,17 +39,19 @@
 
       <Pane layoutX="2.0" layoutY="70.0" prefHeight="445.0" prefWidth="208.0" style="-fx-background-color: Silver; -fx-border-color: black;">
          <children>
-            <TextField layoutX="16.0" layoutY="74.0" />
-            <ListView layoutX="5.0" layoutY="50.0" prefHeight="389.0" prefWidth="200.0" />
             <Label layoutX="59.0" layoutY="16.0" prefHeight="18.0" prefWidth="133.0" text="Liste des images:" />
+            <ListView fx:id="listeImages" layoutX="4.0" layoutY="47.0" prefHeight="389.0" prefWidth="200.0" />
          </children>
       </Pane>
       <Pane layoutY="706.0" prefHeight="18.0" prefWidth="906.0" style="-fx-border-color: black;" />
       <Pane layoutX="223.0" layoutY="72.0" prefHeight="445.0" prefWidth="455.0" style="-fx-border-color: gray;">
          <children>
-            <ImageView fitHeight="445.0" fitWidth="455.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageView" fitHeight="445.0" fitWidth="455.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </Pane>
-      <Label fx:id="labelReper" layoutX="7.0" layoutY="46.0" prefHeight="18.0" prefWidth="200.0" />
+      <Label fx:id="labelReper" layoutX="7.0" layoutY="46.0" prefHeight="18.0" prefWidth="200.0" wrapText="true">
+         <font>
+            <Font size="10.0" />
+         </font></Label>
    </children>
 </AnchorPane>
