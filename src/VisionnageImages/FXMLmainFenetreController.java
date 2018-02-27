@@ -6,28 +6,29 @@
 package VisionnageImages;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.time.Clock;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -74,29 +75,92 @@ public class FXMLmainFenetreController implements Initializable {
     @FXML
     private Label labelDetails;
     @FXML
-    private ImageView imagePrincipale;
+    private ImageView imageView;
+    
+    @FXML private ListView listeImages;
 @FXML
     private ImageView test;
     private ResourceBundle bundle;
     private Locale local;
   
+    
+    private File directory;
+    
+    public void setPath(File path){
+        this.directory = path;
+    }
+    public File getPath(){
+        return directory;
+    }
+    
+    private File[] fListes;
+    
+    public void setLabelReper(String path){
+        labelReper.setText(path);
+    }
+    
+    public void setItemsInListView(File path){
+        
+        if(path != null){
+            fListes = path.listFiles();
+            for(File file: fListes){
+                String name = file.getName();
+                if(file.isFile() && 
+                        (name.endsWith(".JPEG") || name.endsWith(".png") || name.endsWith(".jpg") || name.endsWith(".jpeg") 
+                        || name.endsWith(".PNG" ) || name.endsWith(".JPG" ) )){
+
+                    listeImages.getItems().add(file.getName());
+                }
+            }
+        }
+        
+    }
+
+    public FXMLmainFenetreController(File path) {
+        this.directory = path;
+    }
   
   
   @FXML
     private void modifRepButtonAction(ActionEvent event) {
- 
         final DirectoryChooser dialog = new DirectoryChooser(); 
-        final File directory = dialog.showDialog(btnModif.getScene().getWindow());
-        if(directory == null){
-                    labelReper.setText("No Directory selected");
-                }else{
-                    labelReper.setText(directory.getAbsolutePath());
-                }
-    
+        directory = dialog.showDialog(btnModif.getScene().getWindow());
+        setItemsInListView(getPath());
     }
-    @Override
+    
+    @FXML private void btnAssocierMotClesButtonAction(ActionEvent event){
+        if (!promptMotCle.getText().isEmpty()) {
+            
+        } else {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText("Le champs mot-clés n'est pas remplis!");
+//            alert.setContentText("Le champs mot-clés n'est pas remplis!");
+            
+        }
+    }
+    
+     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        setItemsInListView(getPath());
+        
+        listeImages.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                //System.out.println("ListView selection changed from oldValue = "+ oldValue + " to newValue = " + newValue);
+                FileInputStream input = null;
+                try {
+                    input = new FileInputStream(directory.getAbsolutePath()+"/"+newValue);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(FXMLmainFenetreController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                Image image = new Image(input,455,445,false,false);
+                imageView.setImage(image);
+                
+                
+            }
+        });
     }
      @FXML
     public void btnRecadrer(ActionEvent event) {

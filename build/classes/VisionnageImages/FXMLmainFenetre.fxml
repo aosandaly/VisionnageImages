@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="652.0" prefWidth="907.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="VisionnageImages.FXMLmainFenetreController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="652.0" prefWidth="907.0" style="-fx-background-color: lightgrey;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox alignment="CENTER" prefHeight="38.0" prefWidth="934.0">
          <children>
@@ -67,7 +67,7 @@
             <Pane prefHeight="460.0" prefWidth="213.0" style="-fx-background-color: Silver; -fx-border-color: black;">
                <children>
                   <TextField layoutX="16.0" layoutY="74.0" />
-                  <ListView layoutX="5.0" layoutY="50.0" prefHeight="389.0" prefWidth="201.0" />
+                  <ListView fx:id="listeImages" layoutX="5.0" layoutY="50.0" prefHeight="389.0" prefWidth="201.0" />
                   <Label fx:id="listesImage" layoutX="26.0" layoutY="14.0" prefHeight="21.0" prefWidth="180.0" text="Liste des images:" textFill="#067a8a">
                      <font>
                         <Font name="Noto Sans CJK JP Black" size="17.0" />
@@ -82,7 +82,7 @@
                   <Insets left="9.0" />
                </HBox.margin>
                <children>
-                  <ImageView fx:id="imagePrincipale" fitHeight="456.0" fitWidth="458.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imageView" fitHeight="456.0" fitWidth="458.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@icones/default.jpg" />
                      </image>
@@ -97,7 +97,7 @@
                   <Label fx:id="motCle" layoutX="5.0" layoutY="126.0" prefHeight="16.0" prefWidth="113.0" text="Mot-Clés :" textFill="#067a8a" />
                   <Label fx:id="type" layoutX="11.0" layoutY="174.0" prefHeight="16.0" prefWidth="53.0" text="Type:" textFill="#067a8a" />
                   <Label fx:id="taille" layoutX="10.0" layoutY="219.0" prefHeight="16.0" prefWidth="64.0" text="Taille :" textFill="#067a8a" />
-                  <Label layoutX="100.0" layoutY="179.0" text="Type:" />
+                  <Label layoutX="100.0" layoutY="179.0" prefHeight="16.0" prefWidth="107.0" />
                   <Label layoutX="100.0" layoutY="219.0" text="Type:" />
                   <Button fx:id="mofifieInfo" layoutX="70.0" layoutY="290.0" mnemonicParsing="false" text="Modifier Info" />
                   <TextField fx:id="promptMotCle" layoutX="117.0" layoutY="122.0" prefHeight="26.0" prefWidth="87.0" promptText="mot-clés" />

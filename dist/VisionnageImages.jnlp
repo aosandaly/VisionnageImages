@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="VisionnageImages.jar" size="1948272" download="eager" />
+    <jar href="VisionnageImages.jar" size="1040950" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="VisionnageImages" >
     <param name="requiredFXVersion" value="8.0+"/>

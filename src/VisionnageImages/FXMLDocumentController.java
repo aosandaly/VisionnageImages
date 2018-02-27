@@ -18,6 +18,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
@@ -35,29 +36,47 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Label labelRep;
     
+    private File directory = null;
+    
+    private String chemin;
+    @FXML
+    private VBox buttonM;
+    
+    public String getlabelRep(){
+        return labelRep.getText();
+    }
+    
+    public File getPath(){
+        return directory;
+    }
+    
     @FXML
     private void handleButtonAction(ActionEvent event) {
  
         final DirectoryChooser dialog = new DirectoryChooser(); 
-        final File directory = dialog.showDialog(buttonMl.getScene().getWindow());
+        directory = dialog.showDialog(buttonMl.getScene().getWindow());
+        System.out.println(directory);
        if(directory == null){
-                    labelRep.setText("No Directory selected");
-                }else{
-                    labelRep.setText(directory.getAbsolutePath());
-                }
+            labelRep.setText("No Directory selected");
+        }else{
+            labelRep.setText(directory.getAbsolutePath());
+        }
      
     
     }
         @FXML
     private void validerButtonAction(ActionEvent event) throws IOException {
    
-           /// Parent root = loader.load(getClass().getClassLoader().getResourceAsStream("view/MainUI.fxml");
-            Parent parent=  FXMLLoader.load(getClass().getResource("FXMLmainFenetre.fxml"));
-            System.out.println("root"+parent);
-            Scene scene= new Scene(parent);
-            Stage stage= (Stage)((Node) event.getSource()).getScene().getWindow();    
-            stage.setScene(scene);
-            stage.show();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLmainFenetre.fxml"));
+        FXMLmainFenetreController personController = new FXMLmainFenetreController(directory);
+        loader.setController(personController);
+
+        Parent parent =  loader.load();
+        Scene scene= new Scene(parent);
+        //personController.setLabelReper(getlabelRep());
+        Stage stage= (Stage)((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
