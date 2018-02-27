@@ -11,7 +11,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,13 +19,16 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.DirectoryChooser;
-import org.json.JSONObject;
+import org.json.*;
 
 /**
  * FXML Controller class
@@ -39,9 +41,15 @@ public class FXMLmainFenetreController implements Initializable {
      * Initializes the controller class.
      */
     @FXML private Button btnModif;
+    @FXML private Button btnbtnAssocierMotCles;
+    
     @FXML private Label labelReper;
+    @FXML private Label lTypeImage;
+    @FXML private Label lTailleImage;
+    
     @FXML private ImageView imageView;
-  
+    
+    @FXML private TextField tFMotCles;
     
     @FXML private ListView listeImages;
     
@@ -88,6 +96,18 @@ public class FXMLmainFenetreController implements Initializable {
         directory = dialog.showDialog(btnModif.getScene().getWindow());
         setItemsInListView(getPath());
     }
+    
+    @FXML private void btnAssocierMotClesButtonAction(ActionEvent event){
+        if (!tFMotCles.getText().isEmpty()) {
+            
+        } else {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText("Le champs mot-clés n'est pas remplis!");
+//            alert.setContentText("Le champs mot-clés n'est pas remplis!");
+            
+        }
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -121,7 +141,6 @@ private void createJSON(boolean prettyPrint) {
     
     // Cannot set null directly
     tomJsonObj.put("car", JSONObject.NULL);
-    String[] tablea = new Arrays;
     
     tomJsonObj.put("favorite_foods", new String[] { "cookie", "fish", "chips" });
     
@@ -146,6 +165,39 @@ private void createJSON(boolean prettyPrint) {
 //    } else {
 //        System.out.println(tomJsonObj.toString());
 //    }
-}    
-    
+    } 
+
+//    public void  readJSON() {
+//
+//        JSONParser parser = new JSONParser();
+//
+//        try {
+//
+//            Object obj = parser.parse(new FileReader("f:\\test.json"));
+//
+//            JSONObject jsonObject = (JSONObject) obj;
+//            System.out.println(jsonObject);
+//
+//            String name = (String) jsonObject.get("name");
+//            System.out.println(name);
+//
+//            long age = (Long) jsonObject.get("age");
+//            System.out.println(age);
+//
+//            // loop array
+//            JSONArray msg = (JSONArray) jsonObject.get("messages");
+//            Iterator<String> iterator = msg.iterator();
+//            while (iterator.hasNext()) {
+//                System.out.println(iterator.next());
+//            }
+//
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 }
