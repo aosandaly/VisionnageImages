@@ -6,17 +6,28 @@
 package VisionnageImages;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.time.Clock;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -60,8 +71,12 @@ public class FXMLmainFenetreController implements Initializable {
     private TextField promptMotCle;
     @FXML
     private TextField promptNom;
-    
-    
+    @FXML
+    private Label labelDetails;
+    @FXML
+    private ImageView imagePrincipale;
+@FXML
+    private ImageView test;
     private ResourceBundle bundle;
     private Locale local;
   
@@ -82,7 +97,15 @@ public class FXMLmainFenetreController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
+     @FXML
+    public void btnRecadrer(ActionEvent event) {
+
+    } 
+  
+    public void btnDiaporama(ActionEvent event) throws IOException{
+
+    }     
      @FXML
     public void btnEn(ActionEvent event) {
          loadLang("en");
@@ -93,6 +116,7 @@ public class FXMLmainFenetreController implements Initializable {
     } 
        @FXML
     public void btnAr(ActionEvent event) {
+
         loadLang("ar");
     } 
     private void loadLang(String lang){
@@ -107,11 +131,12 @@ public class FXMLmainFenetreController implements Initializable {
     motCleRecherche.setText(bundle.getString("motCleRecherche"));
     listesImage.setText(bundle.getString("listesImage"));
     btnModif.setText(bundle.getString("btnModif"));
-mofifieInfo.setText(bundle.getString("mofifieInfo"));
-quitterApp.setText(bundle.getString("quitterApp"));
-ok.setText(bundle.getString("ok"));
-promptRecherch.setPromptText(bundle.getString("promptRecherch"));
-promptMotCle.setPromptText(bundle.getString("promptMotCle"));
-promptNom.setPromptText(bundle.getString("promptNom"));
+    mofifieInfo.setText(bundle.getString("mofifieInfo"));
+    quitterApp.setText(bundle.getString("quitterApp"));
+    ok.setText(bundle.getString("ok"));
+    promptRecherch.setPromptText(bundle.getString("promptRecherch"));
+    promptMotCle.setPromptText(bundle.getString("promptMotCle"));
+    promptNom.setPromptText(bundle.getString("promptNom"));
+    labelDetails.setText(bundle.getString("labelDetails"));
     }
 }

@@ -53,6 +53,7 @@ public class FXMLDocumentController implements Initializable {
    
            /// Parent root = loader.load(getClass().getClassLoader().getResourceAsStream("view/MainUI.fxml");
             Parent parent=  FXMLLoader.load(getClass().getResource("FXMLmainFenetre.fxml"));
+            System.out.println("root"+parent);
             Scene scene= new Scene(parent);
             Stage stage= (Stage)((Node) event.getSource()).getScene().getWindow();    
             stage.setScene(scene);
