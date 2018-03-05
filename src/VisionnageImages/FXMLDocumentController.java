@@ -52,11 +52,10 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void handleButtonAction(ActionEvent event) {
- 
+        
         final DirectoryChooser dialog = new DirectoryChooser(); 
         directory = dialog.showDialog(buttonMl.getScene().getWindow());
-        System.out.println(directory);
-       if(directory == null){
+        if(directory == null){
             labelRep.setText("No Directory selected");
         }else{
             labelRep.setText(directory.getAbsolutePath());
@@ -66,10 +65,14 @@ public class FXMLDocumentController implements Initializable {
     }
         @FXML
     private void validerButtonAction(ActionEvent event) throws IOException {
-   
+        if(directory == null){
+            //String home = System.getProperty(".");
+            directory = new File("images");
+            System.out.print(directory);
+        }
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLmainFenetre.fxml"));
-        FXMLmainFenetreController personController = new FXMLmainFenetreController(directory);
-        loader.setController(personController);
+        FXMLmainFenetreController mainController = new FXMLmainFenetreController(directory);
+        loader.setController(mainController);
 
         Parent parent =  loader.load();
         Scene scene= new Scene(parent);
