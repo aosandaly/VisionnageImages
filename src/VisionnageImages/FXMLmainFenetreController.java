@@ -13,6 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -26,6 +27,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
@@ -33,8 +35,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.Window;
 
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
@@ -44,57 +48,42 @@ import org.json.simple.JSONObject;
 /**
  * FXML Controller class
  *
- * @author uapv1700535
+ * @author uapv1700535, uapv1700541
  */
 public class FXMLmainFenetreController implements Initializable {
 
     /**
      * Initializes the controller class.
      */
-  @FXML
-    private Button btnModif;
-    @FXML
-    private Label labelReper; 
-    @FXML
-    private Label NomImage;
-    @FXML
-    private Label motCle;
-    @FXML
-    private Label type;
-    @FXML
-    private Label taille;
-    @FXML
-    private Label rechercherPar;
-    @FXML
-    private RadioButton  nomRecherche;
-    @FXML private RadioButton motCleRecherche;
+    
+    @FXML private Label labelReper; 
+    @FXML private Label NomImage;
+    @FXML private Label motCle;
+    @FXML private Label type;
+    @FXML private Label taille;
+    @FXML private Label tailleimage;
+    @FXML private Label rechercherPar;
     @FXML private Label listesImage;
+    @FXML private Label labelDetails;
+    
+    @FXML private Button btnModif;
     @FXML private Button quitterApp;
-    @FXML private Button btnPrecedent;
-    @FXML
-    private Button mofifieInfo;
-    @FXML
-    private Button ok;
-      @FXML
-    private TextField promptRecherch;
-    @FXML
-    private TextField promptMotCle;
-    @FXML
-    private TextField promptNom;
-    @FXML
-    private Label labelDetails;
-    @FXML
-    private ImageView imageView;
+    @FXML private Button reunitialiserListe;
+    @FXML private Button mofifieInfo;
+    @FXML private Button ok;
     
+    @FXML private TextField promptRecherch;
+    @FXML private TextField promptMotCle;
+    @FXML private TextField promptNom;
+    
+    @FXML private ImageView imageView;
     @FXML private ListView listeImages;
-@FXML
-    private ImageView test;
-    private ResourceBundle bundle;
-    private Locale local;
-    int indice;
+    @FXML private ImageView test;
+    @FXML private ResourceBundle bundle;
+    @FXML private Locale local; 
   
-    
-    private File directory;
+    int indice;
+    private File directory = new File("images");
     
     public void setPath(File path){
         this.directory = path;
@@ -107,10 +96,6 @@ public class FXMLmainFenetreController implements Initializable {
     
     public void setLabelReper(String path){
         labelReper.setText(path);
-    }
-
-    public FXMLmainFenetreController(File path) {
-        this.directory = path;
     }
     
     public void setItemsInListView(File path){
@@ -146,8 +131,14 @@ public class FXMLmainFenetreController implements Initializable {
             System.out.println("test");
         }
     }
-  
-  
+
+  @FXML
+    private void reunitialiserListeButtonAction(ActionEvent event) {
+        listeImages.getItems().clear();
+        setItemsInListView(directory);
+    }
+          
+          
   @FXML
     private void modifRepButtonAction(ActionEvent event) {
         
@@ -165,18 +156,37 @@ public class FXMLmainFenetreController implements Initializable {
      @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        
         setItemsInListView(getPath());
         listeImages.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 setImageInListeView(directory.getAbsolutePath(), newValue);
-            }
+//                tailleimage.setText("455x445");
+           }
         });
     }
     
     
-     @FXML
-    public void btnRecadrer(ActionEvent event) {
+    @FXML
+    private void btnRecadrer(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLRecadrer.fxml"));
+        FXMLRecadrerController Controller = new FXMLRecadrerController();
+        loader.setController(Controller);
+        Parent root = (Parent) loader.load();
+        Scene scene = new Scene(root);
+        Controller.setImage(imageView.getImage());
+        Window existingWindow = ((Node) event.getSource()).getScene().getWindow();
+
+        // create a new stage:
+        Stage stage = new Stage();
+        // make it modal:
+        stage.initModality(Modality.APPLICATION_MODAL.APPLICATION_MODAL.APPLICATION_MODAL);
+        // make its owner the existing window:
+        stage.initOwner(existingWindow);
+
+        stage.setScene(scene);
+        stage.show();
 
     } 
     @FXML public void btnPrecedentAction(ActionEvent event){
@@ -194,20 +204,45 @@ public class FXMLmainFenetreController implements Initializable {
             indice = 0;
         listeImages.getSelectionModel().select(indice);
     }
+    
+    @FXML
+    private void closeButtonAction(ActionEvent event){
+        // get a handle to the stage
+        Stage stage = (Stage) quitterApp.getScene().getWindow();
+        
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog");
+//        alert.setHeaderText("Look, a Confirmation Dialog");
+        alert.setContentText("Voulez vous quitter l'application ?");
 
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            stage.close();
+        }
+        
+    }
     @FXML
     public void btnDiaporamaAction(ActionEvent event) throws IOException{
         try {
             FXMLLoader loaderDiapo = new FXMLLoader(getClass().getResource("FXMLDiaporama.fxml"));
             FXMLDiaporamaController diapoController = new FXMLDiaporamaController(directory,listeImages);
             loaderDiapo.setController(diapoController);
+            
 
             Parent root =  (Parent)loaderDiapo.load();
-            Stage stage = new Stage();
-            stage.initStyle(StageStyle.DECORATED);
-            stage.setTitle("Diaporama");
-            stage.setScene(new Scene(root));
-            stage.show();
+            Stage stageDiapo = new Stage();
+            stageDiapo.initStyle(StageStyle.DECORATED);
+            stageDiapo.setTitle("Diaporama");
+            stageDiapo.setScene(new Scene(root));
+            
+            Window existingWindow = ((Node) event.getSource()).getScene().getWindow();
+            
+            stageDiapo.initModality(Modality.APPLICATION_MODAL.APPLICATION_MODAL.APPLICATION_MODAL);
+            // make its owner the existing window:
+            stageDiapo.initOwner(existingWindow);
+        
+            stageDiapo.show();
+            
         } catch (Exception e) {
             showMessage("Impossible de charger le diaporam !");
         }
@@ -234,8 +269,6 @@ public class FXMLmainFenetreController implements Initializable {
         type.setText(bundle.getString("type"));
         taille.setText(bundle.getString("taille"));
         rechercherPar.setText(bundle.getString("rechercherPar"));
-        nomRecherche.setText(bundle.getString("nomRecherche"));
-        motCleRecherche.setText(bundle.getString("motCleRecherche"));
         listesImage.setText(bundle.getString("listesImage"));
         btnModif.setText(bundle.getString("btnModif"));
         mofifieInfo.setText(bundle.getString("mofifieInfo"));
@@ -245,6 +278,7 @@ public class FXMLmainFenetreController implements Initializable {
         promptMotCle.setPromptText(bundle.getString("promptMotCle"));
         promptNom.setPromptText(bundle.getString("promptNom"));
         labelDetails.setText(bundle.getString("labelDetails"));
+       reunitialiserListe.setText(bundle.getString("reunitialiserListe"));
     }
     
     @FXML private void btnAssocierMotClesButtonAction(ActionEvent event){
@@ -254,7 +288,7 @@ public class FXMLmainFenetreController implements Initializable {
             JSONParser parser = new JSONParser();
             String item = directory.getAbsolutePath()+"/"+listeImages.getSelectionModel().getSelectedItem().toString();
             
-            String[] motCles = promptMotCle.getText().split(",|;");
+            String[] motCles = promptMotCle.getText().split(",");
             
             try 
             {
@@ -363,8 +397,8 @@ public class FXMLmainFenetreController implements Initializable {
     
     public void showMessage(String message){
         Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Information Dialog");
-            alert.setHeaderText(message);
-            alert.show();
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText(message);
+        alert.show();
     }
 }

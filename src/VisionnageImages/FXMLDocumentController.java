@@ -63,24 +63,24 @@ public class FXMLDocumentController implements Initializable {
      
     
     }
-        @FXML
-    private void validerButtonAction(ActionEvent event) throws IOException {
-        if(directory == null){
-            //String home = System.getProperty(".");
-            directory = new File("images");
-            System.out.print(directory);
-        }
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLmainFenetre.fxml"));
-        FXMLmainFenetreController mainController = new FXMLmainFenetreController(directory);
-        loader.setController(mainController);
-
-        Parent parent =  loader.load();
-        Scene scene= new Scene(parent);
-        //personController.setLabelReper(getlabelRep());
-        Stage stage= (Stage)((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
-    }
+//        @FXML
+//    private void validerButtonAction(ActionEvent event) throws IOException {
+//        if(directory == null){
+//            //String home = System.getProperty(".");
+//            directory = new File("images");
+//            System.out.print(directory);
+//        }
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLmainFenetre.fxml"));
+//        FXMLmainFenetreController mainController = new FXMLmainFenetreController(directory);
+//        loader.setController(mainController);
+//
+//        Parent parent =  loader.load();
+//        Scene scene= new Scene(parent);
+//        //personController.setLabelReper(getlabelRep());
+//        Stage stage= (Stage)((Node) event.getSource()).getScene().getWindow();
+//        stage.setScene(scene);
+//        stage.show();
+//    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
