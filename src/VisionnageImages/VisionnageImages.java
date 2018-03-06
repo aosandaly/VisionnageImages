@@ -19,7 +19,7 @@ public class VisionnageImages extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLmainFenetre.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("views/FXMLmainFenetre.fxml"));
         
         Scene scene = new Scene(root);
         

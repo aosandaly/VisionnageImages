@@ -3,7 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/sandaly/git/VisionnageImages/src/VisionnageImages/FXMLmainFenetreController.java</file>
+            <file>file:/home/sandaly/git/VisionnageImages/src/VisionnageImages/controllers/FXMLmainFenetreController.java</file>
+            <file>file:/home/sandaly/git/VisionnageImages/src/VisionnageImages/views/FXMLmainFenetre.fxml</file>
+            <file>file:/home/sandaly/git/VisionnageImages/src/VisionnageImages/controllers/FXMLDiaporamaController.java</file>
         </group>
     </open-files>
 </project-private>
