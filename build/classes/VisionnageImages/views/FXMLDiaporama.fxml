@@ -4,10 +4,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="579.0" prefWidth="753.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="643.0" prefWidth="718.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fx:id="imageViewDiapo" fitHeight="316.0" fitWidth="552.0" layoutX="107.0" layoutY="102.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="btnQuitterDiapo" layoutX="535.0" layoutY="531.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="179.0" text="Quitter le Diaporama" />
+      <ImageView fx:id="imageViewDiapo" fitHeight="600" fitWidth="680.0" layoutX="19.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="btnQuitterDiapo" layoutX="520.0" layoutY="613.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="179.0" text="Quitter le Diaporama" />
    </children>
 </AnchorPane>

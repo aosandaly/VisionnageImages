@@ -86,7 +86,7 @@ public class FXMLDiaporamaController implements Initializable {
                 try {
                     String s=listeImages.getItems().get(count++).toString();
                     //System.out.println(directory.getAbsolutePath()+"/"+s);
-                    imageViewDiapo.setImage(new Image(new FileInputStream(directory.getAbsolutePath()+"/"+s),552,316,false,false));
+                    imageViewDiapo.setImage(new Image(new FileInputStream(directory.getAbsolutePath()+"/"+s),680,600,false,false));
                     if (count >= listeImages.getItems().size()) {
                         //Thread.currentThread().interrupt();
                         this.cancel();

@@ -30,7 +30,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -60,6 +59,7 @@ public class FXMLmainFenetreController implements Initializable {
     @FXML private Label NomImage;
     @FXML private Label motCle;
     @FXML private Label type;
+    @FXML private Label typeImage;
     @FXML private Label taille;
     @FXML private Label tailleimage;
     @FXML private Label rechercherPar;
@@ -124,7 +124,7 @@ public class FXMLmainFenetreController implements Initializable {
         FileInputStream input = null;
         try {
             input = new FileInputStream(directory+"/"+newValue);
-            Image image = new Image(input,455,445,false,false);
+            Image image = new Image(input,460,460,false,false);
             imageView.setImage(image);
         } catch (FileNotFoundException ex) {
             //Logger.getLogger(FXMLmainFenetreController.class.getName()).log(Level.SEVERE, null, ex);
@@ -156,13 +156,15 @@ public class FXMLmainFenetreController implements Initializable {
      @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        
+        tailleimage.setText("460x460");
         setItemsInListView(getPath());
         listeImages.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 setImageInListeView(directory.getAbsolutePath(), newValue);
-//                tailleimage.setText("455x445");
+//                String[] type = newValue.split(".");
+                typeImage.setText(newValue.substring(newValue.indexOf(".")+1));
+                promptNom.setText(newValue.substring(0,newValue.indexOf(".")));
            }
         });
     }
@@ -170,23 +172,28 @@ public class FXMLmainFenetreController implements Initializable {
     
     @FXML
     private void btnRecadrer(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("views/FXMLRecadrer.fxml"));
-        FXMLRecadrerController Controller = new FXMLRecadrerController();
-        loader.setController(Controller);
-        Parent root = (Parent) loader.load();
-        Scene scene = new Scene(root);
-        Controller.setImage(imageView.getImage());
-        Window existingWindow = ((Node) event.getSource()).getScene().getWindow();
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/VisionnageImages/views/FXMLRecadrer.fxml"));
+            FXMLRecadrerController Controller = new FXMLRecadrerController();
+            loader.setController(Controller);
+            Parent root = (Parent) loader.load();
+            Scene scene = new Scene(root);
+            Controller.setImage(imageView.getImage());
+            Window existingWindow = ((Node) event.getSource()).getScene().getWindow();
 
-        // create a new stage:
-        Stage stage = new Stage();
-        // make it modal:
-        stage.initModality(Modality.APPLICATION_MODAL.APPLICATION_MODAL.APPLICATION_MODAL);
-        // make its owner the existing window:
-        stage.initOwner(existingWindow);
+            // create a new stage:
+            Stage stage = new Stage();
+            // make it modal:
+            stage.initModality(Modality.APPLICATION_MODAL.APPLICATION_MODAL.APPLICATION_MODAL);
+            // make its owner the existing window:
+            stage.initOwner(existingWindow);
 
-        stage.setScene(scene);
-        stage.show();
+            stage.setScene(scene);
+            stage.show();
+        }catch(Exception e){
+            showMessage(e+"Impossible de charger la Récadrement !");
+        }
+        
 
     } 
     @FXML public void btnPrecedentAction(ActionEvent event){
@@ -224,7 +231,7 @@ public class FXMLmainFenetreController implements Initializable {
     @FXML
     public void btnDiaporamaAction(ActionEvent event) throws IOException{
         try {
-            FXMLLoader loaderDiapo = new FXMLLoader(getClass().getResource("views/FXMLDiaporama.fxml"));
+            FXMLLoader loaderDiapo = new FXMLLoader(getClass().getResource("/VisionnageImages/views/FXMLDiaporama.fxml"));
             FXMLDiaporamaController diapoController = new FXMLDiaporamaController(directory,listeImages);
             loaderDiapo.setController(diapoController);
             
@@ -244,7 +251,7 @@ public class FXMLmainFenetreController implements Initializable {
             stageDiapo.show();
             
         } catch (Exception e) {
-            showMessage("Impossible de charger le diaporam !");
+            showMessage(e.toString());
         }
         
     }     
