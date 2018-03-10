@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="VisionnageImages.jar" size="1047112" download="eager" />
+    <jar href="VisionnageImages.jar" size="1046634" download="eager" />
     <jar href="lib/json-simple.jar" size="17445" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="VisionnageImages" >

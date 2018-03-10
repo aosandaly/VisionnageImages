@@ -22,7 +22,7 @@ public class VisionnageImages extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("views/FXMLmainFenetre.fxml"));
         
         Scene scene = new Scene(root);
-        
+        stage.setTitle("Visionneuse Image");
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();

@@ -78,7 +78,6 @@ public class FXMLmainFenetreController implements Initializable {
     
     @FXML private ImageView imageView;
     @FXML private ListView listeImages;
-    @FXML private ImageView test;
     @FXML private ResourceBundle bundle;
     @FXML private Locale local; 
   
@@ -112,15 +111,20 @@ public class FXMLmainFenetreController implements Initializable {
                 }
             }
             try {
-                setImageInListeView(directory.getAbsolutePath(), listeImages.getItems().get(0).toString());
-                listeImages.getSelectionModel().select(0);
+                if(listeImages.getItems().size() > 0){
+                    setImageInImageView(directory.getAbsolutePath(), listeImages.getItems().get(0).toString());
+                    listeImages.getSelectionModel().select(0);
+                }else{
+                    showMessage("Le répertoire choisi est vide !");
+                }
+                
             } catch (IndexOutOfBoundsException e) {
                 
             }
         }
     }
     
-    public void setImageInListeView(String directory, String newValue){
+    public void setImageInImageView(String directory, String newValue){
         FileInputStream input = null;
         try {
             input = new FileInputStream(directory+"/"+newValue);
@@ -128,7 +132,7 @@ public class FXMLmainFenetreController implements Initializable {
             imageView.setImage(image);
         } catch (FileNotFoundException ex) {
             //Logger.getLogger(FXMLmainFenetreController.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("test");
+            showMessage("Impossible de charger l'image dans la liste !");
         }
     }
 
@@ -161,10 +165,12 @@ public class FXMLmainFenetreController implements Initializable {
         listeImages.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                setImageInListeView(directory.getAbsolutePath(), newValue);
-//                String[] type = newValue.split(".");
-                typeImage.setText(newValue.substring(newValue.indexOf(".")+1));
-                promptNom.setText(newValue.substring(0,newValue.indexOf(".")));
+                if(listeImages.getItems().size()>0){
+                    setImageInImageView(directory.getAbsolutePath(), newValue);
+                    typeImage.setText(newValue.substring(newValue.indexOf(".")+1));
+                    promptNom.setText(newValue.substring(0,newValue.indexOf(".")));
+                }
+                
            }
         });
     }
@@ -187,7 +193,7 @@ public class FXMLmainFenetreController implements Initializable {
             stage.initModality(Modality.APPLICATION_MODAL.APPLICATION_MODAL.APPLICATION_MODAL);
             // make its owner the existing window:
             stage.initOwner(existingWindow);
-
+            stage.setTitle("Recadrement Image");
             stage.setScene(scene);
             stage.show();
         }catch(Exception e){
@@ -219,7 +225,6 @@ public class FXMLmainFenetreController implements Initializable {
         
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Confirmation Dialog");
-//        alert.setHeaderText("Look, a Confirmation Dialog");
         alert.setContentText("Voulez vous quitter l'application ?");
 
         Optional<ButtonType> result = alert.showAndWait();
@@ -296,6 +301,7 @@ public class FXMLmainFenetreController implements Initializable {
             String item = directory.getAbsolutePath()+"/"+listeImages.getSelectionModel().getSelectedItem().toString();
             
             String[] motCles = promptMotCle.getText().split(",");
+            Boolean motCleAssocie = false;
             
             try 
             {
@@ -308,10 +314,11 @@ public class FXMLmainFenetreController implements Initializable {
                     
                     JSONArray imagesAssociees = (JSONArray) jsonObject.get(cle);
                     if(imagesAssociees == null){
-                        //"Key not exist"
+                        //Key not exist:
                         JSONArray list = new JSONArray();
                         list.add(item);
                         jsonObject.put(cle, list);
+                        motCleAssocie = true;
                     }
                     else{
                         if(imagesAssociees.contains(item)){
@@ -320,22 +327,23 @@ public class FXMLmainFenetreController implements Initializable {
                         else{
                             imagesAssociees.add(item);
                             jsonObject.put(cle, imagesAssociees);
+                            motCleAssocie = true;
                         } 
                     }
-                 }
+                }
                 
                 try (FileWriter file = new FileWriter("MotCles.json")) {
                     file.write(jsonObject.toString());
                     file.flush();
-                }catch (FileNotFoundException e){
-                }
+                }catch (FileNotFoundException e){}
 
             }
             catch (FileNotFoundException e) {
                 System.out.print("Aucun fichier trouver");
             }
-            catch (IOException e){e.printStackTrace();}
-            catch (ParseException e){
+            catch (IOException e){
+                e.printStackTrace();
+            }catch (ParseException e){
                 System.out.print("Le fichier est vide");
                     
                 for (int i = 0; i < motCles.length; i++) {
@@ -349,18 +357,23 @@ public class FXMLmainFenetreController implements Initializable {
                     file.write(jsonObject.toString());
                     file.flush();
 
-                }catch (IOException euror) 
-                {}
-                    
+                }catch (IOException euror){}      
             }
-            catch (Exception e){e.printStackTrace();}
+            catch (Exception e){
+                e.printStackTrace();
+            }finally{
+                if(motCleAssocie){
+                    showMessage("Le(s) mot-clés est/sont bien associée(s).");
+                }
+            }
+
         } else {
             showMessage("Le champs mot-clés n'est pas remplis!");
         }
     }
     
     @FXML private void btnOKButtonAction(ActionEvent envent){
-        if(!ok.getText().isEmpty()){
+        if(!promptRecherch.getText().isEmpty()){
             searchInJSON(promptRecherch.getText());
         }else{
             showMessage("Veuillez saisir un mot-clé pour la recherche!");
@@ -384,7 +397,7 @@ public class FXMLmainFenetreController implements Initializable {
                 }
                 listeImages.getItems().clear();
                 listeImages.getItems().addAll(l);
-                setImageInListeView(directory.getAbsolutePath(), listeImages.getItems().get(0).toString());
+                setImageInImageView(directory.getAbsolutePath(), listeImages.getItems().get(0).toString());
                 listeImages.getSelectionModel().select(0);
             }else{
                 showMessage("Le mot-clé " + cle +" n'est associé à aucune image !"); 
