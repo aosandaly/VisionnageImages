@@ -84,15 +84,17 @@ public class FXMLDiaporamaController implements Initializable {
             @Override
             public void run() {
                 try {
-                    String s=listeImages.getItems().get(count++).toString();
-                    //System.out.println(directory.getAbsolutePath()+"/"+s);
-                    imageViewDiapo.setImage(new Image(new FileInputStream(directory.getAbsolutePath()+"/"+s),680,600,false,false));
-                    if (count >= listeImages.getItems().size()) {
-                        //Thread.currentThread().interrupt();
-                        this.cancel();
-                    }
-                    if (exit ) {
-                        this.cancel();
+                    if(listeImages.getItems().size() > 0){
+                        String s=listeImages.getItems().get(count++).toString();
+                        //System.out.println(directory.getAbsolutePath()+"/"+s);
+                        imageViewDiapo.setImage(new Image(new FileInputStream(directory.getAbsolutePath()+"/"+s),680,600,false,false));
+                        if (count >= listeImages.getItems().size()) {
+                            //Thread.currentThread().interrupt();
+                            this.cancel();
+                        }
+                        if (exit ) {
+                            this.cancel();
+                        }
                     }
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(FXMLmainFenetreController.class.getName()).log(Level.SEVERE, null, ex);

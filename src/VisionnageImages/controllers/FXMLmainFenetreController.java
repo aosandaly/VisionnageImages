@@ -82,7 +82,9 @@ public class FXMLmainFenetreController implements Initializable {
     @FXML private Locale local; 
   
     int indice;
-    private File directory = new File("images");
+    private File directory = new File(System.getProperty("user.dir")+"/images");
+    
+//    private File directory ;
     
     public void setPath(File path){
         this.directory = path;
@@ -161,7 +163,12 @@ public class FXMLmainFenetreController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         tailleimage.setText("460x460");
-        setItemsInListView(getPath());
+        
+        if(directory.exists() && directory.isDirectory()){
+            setItemsInListView(getPath());
+        }else{
+            directory = null;
+        }
         listeImages.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -235,6 +242,7 @@ public class FXMLmainFenetreController implements Initializable {
     }
     @FXML
     public void btnDiaporamaAction(ActionEvent event) throws IOException{
+        
         try {
             FXMLLoader loaderDiapo = new FXMLLoader(getClass().getResource("/VisionnageImages/views/FXMLDiaporama.fxml"));
             FXMLDiaporamaController diapoController = new FXMLDiaporamaController(directory,listeImages);
@@ -296,77 +304,81 @@ public class FXMLmainFenetreController implements Initializable {
     @FXML private void btnAssocierMotClesButtonAction(ActionEvent event){
         
         if (!promptMotCle.getText().isEmpty()) {
-            JSONObject jsonObject = new JSONObject();
-            JSONParser parser = new JSONParser();
-            String item = directory.getAbsolutePath()+"/"+listeImages.getSelectionModel().getSelectedItem().toString();
+            if(listeImages.getItems().size()>0){
+                
             
-            String[] motCles = promptMotCle.getText().split(",");
-            Boolean motCleAssocie = false;
-            
-            try 
-            {
-                Object obj = parser.parse(new FileReader("MotCles.json"));
-                jsonObject = (JSONObject) obj;
-                for (int i = 0; i < motCles.length; i++) {
-                    String cle = motCles[i];
-                    System.out.print(cle);
-                    Object name = (JSONArray) jsonObject.get(cle);
-                    
-                    JSONArray imagesAssociees = (JSONArray) jsonObject.get(cle);
-                    if(imagesAssociees == null){
-                        //Key not exist:
-                        JSONArray list = new JSONArray();
-                        list.add(item);
-                        jsonObject.put(cle, list);
-                        motCleAssocie = true;
-                    }
-                    else{
-                        if(imagesAssociees.contains(item)){
-                            showMessage("Cette image est déjà associé à cette clé: "+cle);
+                JSONObject jsonObject = new JSONObject();
+                JSONParser parser = new JSONParser();
+                String item = directory.getAbsolutePath()+"/"+listeImages.getSelectionModel().getSelectedItem().toString();
+
+                String[] motCles = promptMotCle.getText().split(",");
+                Boolean motCleAssocie = false;
+
+                try 
+                {
+                    Object obj = parser.parse(new FileReader("MotCles.json"));
+                    jsonObject = (JSONObject) obj;
+                    for (int i = 0; i < motCles.length; i++) {
+                        String cle = motCles[i];
+                        System.out.print(cle);
+                        Object name = (JSONArray) jsonObject.get(cle);
+
+                        JSONArray imagesAssociees = (JSONArray) jsonObject.get(cle);
+                        if(imagesAssociees == null){
+                            //Key not exist:
+                            JSONArray list = new JSONArray();
+                            list.add(item);
+                            jsonObject.put(cle, list);
+                            motCleAssocie = true;
                         }
                         else{
-                            imagesAssociees.add(item);
-                            jsonObject.put(cle, imagesAssociees);
-                            motCleAssocie = true;
-                        } 
+                            if(imagesAssociees.contains(item)){
+                                showMessage("Cette image est déjà associé à cette clé: "+cle);
+                            }
+                            else{
+                                imagesAssociees.add(item);
+                                jsonObject.put(cle, imagesAssociees);
+                                motCleAssocie = true;
+                            } 
+                        }
                     }
+
+                    try (FileWriter file = new FileWriter("MotCles.json")) {
+                        file.write(jsonObject.toString());
+                        file.flush();
+                    }catch (FileNotFoundException e){}
+
                 }
-                
-                try (FileWriter file = new FileWriter("MotCles.json")) {
-                    file.write(jsonObject.toString());
-                    file.flush();
-                }catch (FileNotFoundException e){}
+                catch (FileNotFoundException e) {
+                    System.out.print("Aucun fichier trouver");
+                }
+                catch (IOException e){
+                    e.printStackTrace();
+                }catch (ParseException e){
+    //                System.out.print("Le fichier est vide");
+                    motCleAssocie = true;
+                    for (int i = 0; i < motCles.length; i++) {
+                        String cle = motCles[i];
+                        JSONArray list = new JSONArray();
+                        list.add(item);
+                        jsonObject.putIfAbsent(cle, list);
+                     }
+                    try (FileWriter file = new FileWriter("MotCles.json")) {
 
-            }
-            catch (FileNotFoundException e) {
-                System.out.print("Aucun fichier trouver");
-            }
-            catch (IOException e){
-                e.printStackTrace();
-            }catch (ParseException e){
-                System.out.print("Le fichier est vide");
-                    
-                for (int i = 0; i < motCles.length; i++) {
-                    String cle = motCles[i];
-                    JSONArray list = new JSONArray();
-                    list.add(item);
-                    jsonObject.putIfAbsent(cle, list);
-                 }
-                try (FileWriter file = new FileWriter("MotCles.json")) {
+                        file.write(jsonObject.toString());
+                        file.flush();
 
-                    file.write(jsonObject.toString());
-                    file.flush();
-
-                }catch (IOException euror){}      
-            }
-            catch (Exception e){
-                e.printStackTrace();
-            }finally{
+                    }catch (IOException euror){}      
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
                 if(motCleAssocie){
                     showMessage("Le(s) mot-clés est/sont bien associée(s).");
                 }
+            }else{
+                showMessage("La liste d'images est vide: imoppsible d'associer à une image");
             }
-
         } else {
             showMessage("Le champs mot-clés n'est pas remplis!");
         }
@@ -374,7 +386,11 @@ public class FXMLmainFenetreController implements Initializable {
     
     @FXML private void btnOKButtonAction(ActionEvent envent){
         if(!promptRecherch.getText().isEmpty()){
-            searchInJSON(promptRecherch.getText());
+            if(directory!=null){
+                searchInJSON(promptRecherch.getText());
+            }else
+                showMessage("Veuillez saisir un répertoire avant de faire des recherches !");
+            
         }else{
             showMessage("Veuillez saisir un mot-clé pour la recherche!");
         }
@@ -409,7 +425,7 @@ public class FXMLmainFenetreController implements Initializable {
         catch (IOException e){e.printStackTrace();}
         catch (ParseException e){
             //e.printStackTrace();
-            showMessage("Le fichier est vide");
+            showMessage("Aucun mot-clés trouvé ! ");
         }
         catch (Exception e){e.printStackTrace();}
         
